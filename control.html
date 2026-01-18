@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление роботом-пауком</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #111;
+            color: white;
+        }
+
+        button {
+            width: 120px;
+            height: 60px;
+            font-size: 18px;
+            margin: 10px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn {
+            background-color: #444;
+            color: white;
+        }
+
+        .btn:hover {
+            background-color: #666;
+        }
+
+        .back {
+            background-color: #2a7cff;
+        }
+
+        .back:hover {
+            background-color: #4a94ff;
+        }
+
+        /* Окошко для лога команд */
+        #log {
+            margin: 20px auto;
+            padding: 10px;
+            width: 400px;
+            height: 200px;
+            background-color: #222;
+            border: 2px solid #555;
+            border-radius: 10px;
+            overflow-y: auto;
+            text-align: left;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🕷 Управление роботом</h1>
+
+    <div>
+        <button class="btn" onclick="sendCommand('forward')">⬆ Вперёд</button>
+    </div>
+
+    <div>
+        <button class="btn" onclick="sendCommand('left')">⬅ Влево</button>
+        <button class="btn" onclick="sendCommand('stop')">⏹ Стоп</button>
+        <button class="btn" onclick="sendCommand('right')">➡ Вправо</button>
+    </div>
+
+    <div>
+        <button class="btn" onclick="sendCommand('backward')">⬇ Назад</button>
+    </div>
+
+    <br><br>
+
+    <!-- КНОПКА ВОЗВРАТА -->
+    <button class="btn back" onclick="goBack()">⬅ Назад на главную</button>
+
+    <!-- Окошко для вывода команд -->
+    <div id="log">Лог команд:</div>
+
+    <script>
+        function sendCommand(command) {
+            fetch(`/move/${command}`);
+            addLog(command);
+        }
+
+        function goBack() {
+            window.location.href = "/";
+        }
+
+        function addLog(command) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `<div>[${timestamp}] Команда: ${command}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight; // Автопрокрутка вниз
+        }
+    </script>
+
+</body>
+</html>
